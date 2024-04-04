@@ -49,10 +49,10 @@ Step 4: list deduplication and mapping
 + offsets: 0.0129433 bits/int
 + lists: 2.49613 bits/int
 + Number of colors (lists of ids): 1,094,308
-+ The list of input filenames weights: 439756 Bytes (=0.43MB)
-+ The MPHF of minimizers weights: 2366936 Bytes (=2.36MB)
-+ Colors weight: 376279388 Bytes (=376.27MB)
-+ The mapping from minimizers to colors weights: 33047924 Bytes (=33.04MB)
++ The list of input filenames weights: 439756 Bytes (=0.43MB) (0.1%)
++ The MPHF of minimizers weights: 2366936 Bytes (=2.36MB) (0.5%)
++ Colors weight: 376279388 Bytes (=376.27MB) (91.3%)
++ The mapping from minimizers to colors weights: 33047924 Bytes (=33.04MB) (8.1%)
 
 + Written 412134023 Bytes (=412.13MB)
 
