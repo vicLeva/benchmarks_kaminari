@@ -16,3 +16,6 @@ Benchmarks of Kaminari competitors
 [link to experiment](https://github.com/vicLeva/benchmarks_kaminari/wiki/Gut)
 
 
+## False positives
+
+[https://github.com/vicLeva/benchmarks_kaminari/wiki/False-positive-rate-study](https://github.com/vicLeva/benchmarks_kaminari/wiki/False-positive-rate-study)
