@@ -1,17 +1,17 @@
 # benchmarks_kaminari
 Benchmarks of Kaminari competitors
 
-## Salmonella Enterica - Pangenome
+## [old] Salmonella Enterica - Pangenome
 
 [link to experiment](https://github.com/vicLeva/benchmarks_kaminari/wiki/Salmonella_enterica)
 
 
-## Human genomic data
+## [old] Human genomic data
 
 [link to experiment](https://github.com/vicLeva/benchmarks_kaminari/wiki/Human)
 
 
-## Gut metagenomic data
+## [old] Gut metagenomic data
 
 [link to experiment](https://github.com/vicLeva/benchmarks_kaminari/wiki/Gut)
 
