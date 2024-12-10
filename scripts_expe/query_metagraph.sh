@@ -18,31 +18,31 @@ neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
 echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
 
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$pos_queries_ecoli" > "$output_dir"/ecoli_metagraph_pos.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_ecoli" > "$output_dir"/ecoli_metagraph_pos.txt >> "$log_filename" 2>&1
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$neg_queries_ecoli" > "$output_dir"/ecoli_metagraph_neg.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_ecoli" > "$output_dir"/ecoli_metagraph_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
 echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$pos_queries_human" > "$output_dir"/human_metagraph_pos.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_human" > "$output_dir"/human_metagraph_pos.txt >> "$log_filename" 2>&1
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$neg_queries_human" > "$output_dir"/human_metagraph_neg.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_human" > "$output_dir"/human_metagraph_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
 echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$pos_queries_gut" > "$output_dir"/gut_metagraph_pos.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_gut" > "$output_dir"/gut_metagraph_pos.txt >> "$log_filename" 2>&1
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$neg_queries_gut" > "$output_dir"/gut_metagraph_neg.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_gut" > "$output_dir"/gut_metagraph_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
 echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
 
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$pos_queries_salmonella" > "$output_dir"/salmonella_metagraph_pos.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_salmonella" > "$output_dir"/salmonella_metagraph_pos.txt >> "$log_filename" 2>&1
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --min-kmers-fraction-label 0.8 "$neg_queries_salmonella" > "$output_dir"/salmonella_metagraph_neg.txt >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_salmonella" > "$output_dir"/salmonella_metagraph_neg.txt >> "$log_filename" 2>&1
