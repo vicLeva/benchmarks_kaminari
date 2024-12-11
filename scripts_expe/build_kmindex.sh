@@ -10,7 +10,8 @@ tmp_dir="/WORKS/vlevallois/tmp"
 fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof_kmindex.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof_kmindex.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof_kmindex.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_kmindex.list"
+fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_kmindex_10k.list"
+fof_salmonella_150k="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_kmindex_150k.list"
 
 
 echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
@@ -87,3 +88,24 @@ rm -rf "$index_dir"/index_salmonella_on_disk/fpr \
     "$index_dir"/index_salmonella_on_disk/partition_infos \
     "$index_dir"/index_salmonella_on_disk/superkmers \
     "$index_dir"/index_salmonella_on_disk/minimizers
+
+#===============================================================================
+
+echo "!!!==!!! start salmonella 150k !!!==!!!" >> "$log_filename"
+
+/usr/bin/time -v kmtricks pipeline --file "$fof_salmonella_150k" --run-dir "$index_dir"/index_salmonella_150k_on_disk --kmer-size 25 --hard-min 1 --mode hash:bf:bin --bloom-size 36754250 -t 32 --until count >> "$log_filename" 2>&1
+#TODO : check bloom-size
+
+/usr/bin/time -v kmtricks merge --run-dir "$index_dir"/index_salmonella_150k_on_disk --mode hash:bf:bin -t 4 >> "$log_filename" 2>&1
+
+/usr/bin/time -v kmindex register --global-index "$index_dir"/salmonella_150k_index --name salmonella_150k.kmindex --index-path "$index_dir"/index_salmonella_150k_on_disk >> "$log_filename" 2>&1
+
+rm -rf "$index_dir"/index_salmonella_150k_on_disk/fpr \
+    "$index_dir"/index_salmonella_150k_on_disk/filters \
+    "$index_dir"/index_salmonella_150k_on_disk/howde_index \
+    "$index_dir"/index_salmonella_150k_on_disk/merge_infos \
+    "$index_dir"/index_salmonella_150k_on_disk/counts \
+    "$index_dir"/index_salmonella_150k_on_disk/histograms \
+    "$index_dir"/index_salmonella_150k_on_disk/partition_infos \
+    "$index_dir"/index_salmonella_150k_on_disk/superkmers \
+    "$index_dir"/index_salmonella_150k_on_disk/minimizers

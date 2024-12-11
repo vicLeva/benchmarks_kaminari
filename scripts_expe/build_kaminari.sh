@@ -11,7 +11,8 @@ tmp_dir="/WORKS/vlevallois/tmp"
 fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
+fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
+fof_salmonella_150k="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_150k.list"
 
 
 echo "start ecoli" >> "$log_filename"
@@ -46,4 +47,13 @@ echo "start salmonella" >> "$log_filename"
 /usr/bin/time -v "$cmd" build \
   -i "$fof_salmonella" \
   -o "$index_dir"/salmonella.kaminari \
+  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1
+
+#===============================================================================
+
+echo "!!!==!!! start salmonella 150k !!!==!!!" >> "$log_filename"
+
+/usr/bin/time -v "$cmd" build \
+  -i "$fof_salmonella_150k" \
+  -o "$index_dir"/salmonella_150k.kaminari \
   -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1

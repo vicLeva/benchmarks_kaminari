@@ -10,7 +10,8 @@ tmp_dir="/WORKS/vlevallois/tmp"
 fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
+fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
+fof_salmonella_150k="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_150k.list"
 
 
 echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
@@ -35,3 +36,13 @@ echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
 
 
 /usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_salmonella" "$index_dir"/salmonella.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 4 >> "$log_filename" 2>&1
+
+
+#===============================================================================
+
+echo "!!!==!!! start salmonella 150k !!!==!!!" >> "$log_filename"
+
+
+/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_salmonella_150k" "$index_dir"/salmonella_150k.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 4 >> "$log_filename" 2>&1
+
+
