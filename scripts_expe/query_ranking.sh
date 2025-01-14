@@ -22,12 +22,12 @@ echo "start ecoli kam 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_ecoli"/pos_queries_80.fasta \
   -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_80.fasta \
   -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -36,12 +36,12 @@ echo "start ecoli kam 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_ecoli"/pos_queries_500.fasta \
   -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_500.fasta \
   -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -50,12 +50,12 @@ echo "start ecoli kam 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_ecoli"/pos_queries_2000.fasta \
   -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_2000.fasta \
   -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/ecoli_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -67,12 +67,12 @@ echo "start human kam 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_human"/pos_queries_80.fasta \
   -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/human_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/human_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_80.fasta \
   -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/human_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/human_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -82,12 +82,12 @@ echo "start human kam 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_human"/pos_queries_500.fasta \
   -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/human_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/human_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_500.fasta \
   -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/human_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/human_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -96,12 +96,12 @@ echo "start human kam 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_human"/pos_queries_2000.fasta \
   -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/human_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/human_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_2000.fasta \
   -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/human_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/human_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 
@@ -114,12 +114,12 @@ echo "start gut kam 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_gut"/pos_queries_80.fasta \
   -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_80.fasta \
   -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -130,12 +130,12 @@ echo "start gut kam 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_gut"/pos_queries_500.fasta \
   -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_500.fasta \
   -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -145,12 +145,12 @@ echo "start gut kam 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_gut"/pos_queries_2000.fasta \
   -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_2000.fasta \
   -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/gut_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 
@@ -163,12 +163,12 @@ echo "start salmonella kam 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_salmonella"/pos_queries_80.fasta \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_80_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_80.fasta \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_80_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -179,12 +179,12 @@ echo "start salmonella kam 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_salmonella"/pos_queries_500.fasta \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_500_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_500.fasta \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_500_neg.txt -v 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -194,12 +194,12 @@ echo "start salmonella kam 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" query \
   -i "$pos_queries_salmonella"/pos_queries_2000.fasta \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_2000_pos.txt -v 1 >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" query \
   -i "$data_dir"/neg_queries_2000.fasta \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
+  -t 1 -r 0.8 --ranking -o "$output_dir"/salmonella_kaminari_2000_neg.txt -v 1 >> "$log_filename" 2>&1
 
 
 
@@ -218,12 +218,12 @@ echo "start ecoli fulgor 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_ecoli"/pos_queries_80.fasta \
   -i "$index_dir"/ecoli.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_80_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_80_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_80.fasta \
   -i "$index_dir"/ecoli.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_80_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_80_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -232,12 +232,12 @@ echo "start ecoli fulgor 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_ecoli"/pos_queries_500.fasta \
   -i "$index_dir"/ecoli.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_500_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_500_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_500.fasta \
   -i "$index_dir"/ecoli.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_500_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_500_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -246,12 +246,12 @@ echo "start ecoli fulgor 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_ecoli"/pos_queries_2000.fasta \
   -i "$index_dir"/ecoli.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_2000_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_2000_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_2000.fasta \
   -i "$index_dir"/ecoli.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_2000_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/ecoli_fulgor_2000_neg.txt >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -263,12 +263,12 @@ echo "start human fulgor 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_human"/pos_queries_80.fasta \
   -i "$index_dir"/human.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/human_fulgor_80_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/human_fulgor_80_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_80.fasta \
   -i "$index_dir"/human.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/human_fulgor_80_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/human_fulgor_80_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -277,12 +277,12 @@ echo "start human fulgor 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_human"/pos_queries_500.fasta \
   -i "$index_dir"/human.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/human_fulgor_500_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/human_fulgor_500_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_500.fasta \
   -i "$index_dir"/human.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/human_fulgor_500_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/human_fulgor_500_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -291,12 +291,12 @@ echo "start human fulgor 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_human"/pos_queries_2000.fasta \
   -i "$index_dir"/human.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/human_fulgor_2000_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/human_fulgor_2000_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_2000.fasta \
   -i "$index_dir"/human.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/human_fulgor_2000_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/human_fulgor_2000_neg.txt >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -308,12 +308,12 @@ echo "start gut fulgor 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_gut"/pos_queries_80.fasta \
   -i "$index_dir"/gut.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/gut_fulgor_80_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/gut_fulgor_80_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_80.fasta \
   -i "$index_dir"/gut.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/gut_fulgor_80_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/gut_fulgor_80_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -322,12 +322,12 @@ echo "start gut fulgor 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_gut"/pos_queries_500.fasta \
   -i "$index_dir"/gut.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/gut_fulgor_500_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/gut_fulgor_500_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_500.fasta \
   -i "$index_dir"/gut.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/gut_fulgor_500_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/gut_fulgor_500_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -336,12 +336,12 @@ echo "start gut fulgor 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_gut"/pos_queries_2000.fasta \
   -i "$index_dir"/gut.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/gut_fulgor_2000_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/gut_fulgor_2000_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_2000.fasta \
   -i "$index_dir"/gut.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/gut_fulgor_2000_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/gut_fulgor_2000_neg.txt >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -353,12 +353,12 @@ echo "start salmonella fulgor 80" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_salmonella"/pos_queries_80.fasta \
   -i "$index_dir"/salmonella.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_80_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_80_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_80.fasta \
   -i "$index_dir"/salmonella.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_80_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_80_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -367,12 +367,12 @@ echo "start salmonella fulgor 500" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_salmonella"/pos_queries_500.fasta \
   -i "$index_dir"/salmonella.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_500_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_500_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_500.fasta \
   -i "$index_dir"/salmonella.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_500_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_500_neg.txt >> "$log_filename" 2>&1
 
 #===============================================================================
 
@@ -381,9 +381,9 @@ echo "start salmonella fulgor 2000" >> "$log_filename"
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$pos_queries_salmonella"/pos_queries_2000.fasta \
   -i "$index_dir"/salmonella.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_2000_pos.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_2000_pos.txt >> "$log_filename" 2>&1
 
 /usr/bin/time -v "$cmd" pseudoalign \
   -q "$data_dir"/neg_queries_2000.fasta \
   -i "$index_dir"/salmonella.fur \
-  -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_2000_neg.txt >> "$log_filename" 2>&1
+  -t 1 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_2000_neg.txt >> "$log_filename" 2>&1
