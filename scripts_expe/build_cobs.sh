@@ -16,26 +16,26 @@ fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
 
 echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_ecoli" "$index_dir"/ecoli.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 1 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_ecoli" "$index_dir"/ecoli.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
 echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_human" "$index_dir"/human.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 1 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_human" "$index_dir"/human.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
 echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_gut" "$index_dir"/gut.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 1 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_gut" "$index_dir"/gut.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
 
 #===============================================================================
 
 echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
 
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_salmonella" "$index_dir"/salmonella.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 1 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_salmonella" "$index_dir"/salmonella.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
 
 
 #===============================================================================
@@ -43,4 +43,4 @@ echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
 echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
 
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_tara" "$index_dir"/tara.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.05 --num-hashes 1 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_tara" "$index_dir"/tara.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
