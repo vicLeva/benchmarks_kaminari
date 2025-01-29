@@ -12,6 +12,7 @@ pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta
 pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
 pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
 pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
+pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
 
 neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
 
@@ -69,3 +70,17 @@ echo "start salmonella" >> "$log_filename"
   -i "$neg_queries" \
   -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
   -t 32 -r 0.8  -o "$output_dir"/salmonella_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
+
+#===============================================================================
+
+echo "start tara" >> "$log_filename"
+
+/usr/bin/time -v "$cmd" query \
+  -i "$pos_queries_tara" \
+  -x "$index_dir"/tara.kaminari -d "$tmp_dir" -g 256 \
+  -t 32 -r 0.8  -o "$output_dir"/tara_kaminari_pos.txt -v 1 >> "$log_filename" 2>&1
+
+/usr/bin/time -v "$cmd" query \
+  -i "$neg_queries" \
+  -x "$index_dir"/tara.kaminari -d "$tmp_dir" -g 256 \
+  -t 32 -r 0.8  -o "$output_dir"/tara_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
