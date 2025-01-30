@@ -12,7 +12,7 @@ tmp_dir="/WORKS/vlevallois/tmp"
 fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof_kmindex.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof_kmindex.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof_kmindex.list"
-fof_salmonella="ls /WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k_kmindex.list"
+fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k_kmindex.list"
 fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof_kmindex.list"
 
 
