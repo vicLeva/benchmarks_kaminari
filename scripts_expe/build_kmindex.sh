@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#see run_individual_ntcards.sh for the commands to calculate the bloom size
+
 #to change
 log_filename="/WORKS/vlevallois/expes_kaminari/logs/kmindex/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
 cmd="kmindex"
@@ -10,8 +12,8 @@ tmp_dir="/WORKS/vlevallois/tmp"
 fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof_kmindex.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof_kmindex.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof_kmindex.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_kmindex_10k.list"
-fof_salmonella_150k="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_kmindex_150k.list"
+fof_salmonella="ls /WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k_kmindex.list"
+fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof_kmindex.list"
 
 
 echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
