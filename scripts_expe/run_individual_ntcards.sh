@@ -24,9 +24,14 @@ for input_file in $largest_files; do
     prefix="${filename%.*}"  # Remove extension for the prefix
 
     # Run ntCard with the input file and specific output prefix
-    ntcard -t 4 -k 31 -p "${output_dir}/${prefix}" "$input_file"
+    /home/genouest/genscale/vlevallois/ntCard/ntcard -t 4 -k 31 -p "${output_dir}/${prefix}" "$input_file"
     
     echo "ntCard finished processing: $input_file"
 done
 
 echo "Processed the 500 largest files and saved results in $output_dir"
+echo "see end of run_individual_ntcards.sh for the command to get the file with the highest #distinct_kmers"
+
+
+# awk '$1 == "F0" {print FILENAME, $2}' * | sort -k2,2nr | head -n1
+# in the ntcard_results directory to get the file with the highest #distinct_kmers

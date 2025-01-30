@@ -12,6 +12,7 @@ pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta
 pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
 pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
 pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
+pos_queries_salmonella="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
 
 neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
 
@@ -62,5 +63,17 @@ rm -rf "$output_dir"/salmonella_kmindex_pos/batch*
 /usr/bin/time -v  "$cmd" query -i "$index_dir"/salmonella_index -o "$output_dir"/salmonella_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
 
 rm -rf "$output_dir"/salmonella_kmindex_neg/batch*
+
+#===============================================================================
+
+echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
+
+/usr/bin/time -v  "$cmd" query -i "$index_dir"/tara_index -o "$output_dir"/tara_kmindex_pos  -q "$pos_queries_tara" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
+
+rm -rf "$output_dir"/tara_kmindex_pos/batch*
+
+/usr/bin/time -v  "$cmd" query -i "$index_dir"/tara_index -o "$output_dir"/tara_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
+
+rm -rf "$output_dir"/tara_kmindex_neg/batch*
 
 
