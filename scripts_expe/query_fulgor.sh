@@ -12,6 +12,7 @@ pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta
 pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
 pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
 pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
+pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
 
 neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
 
@@ -69,3 +70,17 @@ echo "start salmonella" >> "$log_filename"
   -q "$neg_queries" \
   -i "$index_dir"/salmonella.fur \
   -t 32 --threshold 0.8  -o "$output_dir"/salmonella_fulgor_neg.txt >> "$log_filename" 2>&1
+
+#===============================================================================
+
+echo "start tara" >> "$log_filename"
+
+/usr/bin/time -v "$cmd" pseudoalign \
+  -q "$pos_queries_tara" \
+  -i "$index_dir"/tara.fur \
+  -t 32 --threshold 0.8  -o "$output_dir"/tara_fulgor_pos.txt >> "$log_filename" 2>&1
+
+/usr/bin/time -v "$cmd" pseudoalign \
+  -q "$neg_queries" \
+  -i "$index_dir"/tara.fur \
+  -t 32 --threshold 0.8  -o "$output_dir"/tara_fulgor_neg.txt >> "$log_filename" 2>&1

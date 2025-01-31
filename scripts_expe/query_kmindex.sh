@@ -12,7 +12,7 @@ pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta
 pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
 pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
 pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
-pos_queries_salmonella="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
+pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
 
 neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
 

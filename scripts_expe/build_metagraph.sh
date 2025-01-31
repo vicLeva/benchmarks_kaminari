@@ -11,7 +11,7 @@ fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
 fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
-fof_salmonella_150k="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_150k.list"
+fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
 
 
 echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
@@ -47,9 +47,9 @@ echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
 
 #===============================================================================
 
-echo "!!!==!!! start salmonella 150k !!!==!!!" >> "$log_filename"
+echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
 #crashes because too big number of arguments
 
-/usr/bin/time -v "$cmd" build -k 31 --mode canonical -o "$index_dir"/salmonella --disk-swap "$tmp_dir" -p 32 --mem-cap-gb 256 /WORKS/vlevallois/data/dataset_pangenome_salmonella/data/*.fa.gz >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" build -k 31 --mode canonical -o "$index_dir"/tara --disk-swap "$tmp_dir" -p 32 --mem-cap-gb 256 /WORKS/vlevallois/data/dataset_metagenome_tara/data/*.fastq.gz >> "$log_filename" 2>&1
 
-/usr/bin/time -v "$cmd" annotate -i "$index_dir"/salmonella.dbg --anno-filename --mem-cap-gb 256 -p 32 -v -o "$index_dir"/salmonella --disk-swap "$tmp_dir" /WORKS/vlevallois/data/dataset_pangenome_salmonella/data/*.fa.gz >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" annotate -i "$index_dir"/tara.dbg --anno-filename --mem-cap-gb 256 -p 32 -v -o "$index_dir"/tara --disk-swap "$tmp_dir" /WORKS/vlevallois/data/dataset_metagenome_tara/data/*.fastq.gz >> "$log_filename" 2>&1
