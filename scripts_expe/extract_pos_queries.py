@@ -59,7 +59,8 @@ def read_to_query_seqs(line, query_length, queries_per_contig):
     for _ in range(queries_per_contig): 
         if (j+query_length) > len(line):
             break
-        seqs.append(line[j:j+query_length])
+        if all(char in 'ATCG' for char in line[j:j+query_length]):
+            seqs.append(line[j:j+query_length])
         j += query_length
     return seqs
 
@@ -100,12 +101,13 @@ def write_random_seqs_fastq(fastq_file, outputstream, i, query_length, queries_p
 if __name__ == "__main__":
     repos = ["dataset_genome_ecoli", "dataset_metagenome_gut", "dataset_pangenome_salmonella", "dataset_genome_human"]
     #dataset_genome_human need 840 queries / contig, others can go w/ 200
+    repos = ["dataset_genome_ecoli", "dataset_metagenome_gut"]
 
     data_dir = '/WORKS/vlevallois/data'
-    repo = "dataset_genome_ecoli"
 
-    """ for repo in repos:
-        for q_length in [80, 500, 2000]:
+    for repo in repos:
+        #for q_length in [80, 500, 2000]:
+        for q_length in [1000]:
             print("doing " + repo + " with query length " + str(q_length))
             fof = f"{data_dir}/{repo}/fof.list"
             queries_per_contig = 200
@@ -118,9 +120,9 @@ if __name__ == "__main__":
 
             output = f"{data_dir}/{repo}/pos_queries_{q_length}.fasta"
 
-            extract_random_sequences(fof, output, q_length, queries_per_contig) """
+            extract_random_sequences(fof, output, q_length, queries_per_contig)
     
-    repo = "dataset_metagenome_tara"
+    """ repo = "dataset_metagenome_tara"
     fof = f"{data_dir}/{repo}/fof.list"
     queries_per_file = 4200
     output = f"{data_dir}/{repo}/pos_queries.fasta"
@@ -128,6 +130,6 @@ if __name__ == "__main__":
     with open(fof, 'r') as files:
         i = 0
         for f in files:
-            i = write_random_seqs_fastq(f.strip(), fh, i, 1000, queries_per_file)    
+            i = write_random_seqs_fastq(f.strip(), fh, i, 1000, queries_per_file) """    
 
     
