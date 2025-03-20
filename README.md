@@ -9,3 +9,4 @@ Benchmarks of Kaminari competitors
 [https://github.com/vicLeva/benchmarks_kaminari/wiki/Expes-RBO-&-false-positives](https://github.com/vicLeva/benchmarks_kaminari/wiki/Expes-RBO-&-false-positives)
 
 ## Some stats over datasets
+[https://github.com/vicLeva/benchmarks_kaminari/wiki/stats](https://github.com/vicLeva/benchmarks_kaminari/wiki/stats)
