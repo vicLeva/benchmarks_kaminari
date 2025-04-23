@@ -20,7 +20,7 @@ neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
 echo "start ecoli" >> "$log_filename"
 
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/ecoli.raptor --query "$pos_queries_ecoli" --output "$output_dir"/ecoli_raptor_pos.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" search --index "$index_dir"/ecoli.raptor --query "$pos_queries_ecoli" --output "$output_dir"/ecoli_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
 
 
 /usr/bin/time -v "$cmd" search --index "$index_dir"/ecoli.raptor --query "$neg_queries" --output "$output_dir"/ecoli_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
@@ -29,7 +29,7 @@ echo "start ecoli" >> "$log_filename"
 
 echo "start human" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/human.raptor --query "$pos_queries_human" --output "$output_dir"/human_raptor_pos.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" search --index "$index_dir"/human.raptor --query "$pos_queries_human" --output "$output_dir"/human_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
 
 
 /usr/bin/time -v "$cmd" search --index "$index_dir"/human.raptor --query "$neg_queries" --output "$output_dir"/human_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
@@ -38,7 +38,7 @@ echo "start human" >> "$log_filename"
 
 echo "start gut" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/gut.raptor --query "$pos_queries_gut" --output "$output_dir"/gut_raptor_pos.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" search --index "$index_dir"/gut.raptor --query "$pos_queries_gut" --output "$output_dir"/gut_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
 
 
 /usr/bin/time -v "$cmd" search --index "$index_dir"/gut.raptor --query "$neg_queries" --output "$output_dir"/gut_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
@@ -47,7 +47,7 @@ echo "start gut" >> "$log_filename"
 
 echo "start salmonella" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/salmonella.raptor --query "$pos_queries_salmonella" --output "$output_dir"/salmonella_raptor_pos.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" search --index "$index_dir"/salmonella.raptor --query "$pos_queries_salmonella" --output "$output_dir"/salmonella_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
 
 
 /usr/bin/time -v "$cmd" search --index "$index_dir"/salmonella.raptor --query "$neg_queries" --output "$output_dir"/salmonella_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
@@ -56,7 +56,7 @@ echo "start salmonella" >> "$log_filename"
 
 echo "start tara" >> "$log_filename"
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/tara.raptor --query "$pos_queries_tara" --output "$output_dir"/tara_raptor_pos.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+/usr/bin/time -v "$cmd" search --index "$index_dir"/tara.raptor --query "$pos_queries_tara" --output "$output_dir"/tara_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
 
 
 /usr/bin/time -v "$cmd" search --index "$index_dir"/tara.raptor --query "$neg_queries" --output "$output_dir"/tara_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1

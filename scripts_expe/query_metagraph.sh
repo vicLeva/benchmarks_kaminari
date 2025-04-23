@@ -21,7 +21,7 @@ echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
 
 /usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_ecoli" > "$output_dir"/ecoli_metagraph_pos.txt 2>> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_ecoli" > "$output_dir"/ecoli_metagraph_neg.txt 2>> "$log_filename"
+/usr/bin/time -v "$cmd" query -i "$index_dir"/ecoli.dbg -a "$index_dir"/ecoli.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries" > "$output_dir"/ecoli_metagraph_neg.txt 2>> "$log_filename"
 
 #===============================================================================
 
@@ -29,7 +29,7 @@ echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
 
 /usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_human" > "$output_dir"/human_metagraph_pos.txt 2>> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_human" > "$output_dir"/human_metagraph_neg.txt 2>> "$log_filename"
+/usr/bin/time -v "$cmd" query -i "$index_dir"/human.dbg -a "$index_dir"/human.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries" > "$output_dir"/human_metagraph_neg.txt 2>> "$log_filename"
 
 #===============================================================================
 
@@ -37,7 +37,7 @@ echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
 
 /usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_gut" > "$output_dir"/gut_metagraph_pos.txt 2>> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_gut" > "$output_dir"/gut_metagraph_neg.txt 2>> "$log_filename"
+/usr/bin/time -v "$cmd" query -i "$index_dir"/gut.dbg -a "$index_dir"/gut.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries" > "$output_dir"/gut_metagraph_neg.txt 2>> "$log_filename"
 
 #===============================================================================
 
@@ -46,7 +46,7 @@ echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
 
 /usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_salmonella" > "$output_dir"/salmonella_metagraph_pos.txt 2>> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_salmonella" > "$output_dir"/salmonella_metagraph_neg.txt 2>> "$log_filename"
+/usr/bin/time -v "$cmd" query -i "$index_dir"/salmonella.dbg -a "$index_dir"/salmonella.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries" > "$output_dir"/salmonella_metagraph_neg.txt 2>> "$log_filename"
 
 #===============================================================================
 
@@ -55,4 +55,4 @@ echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
 
 /usr/bin/time -v "$cmd" query -i "$index_dir"/tara.dbg -a "$index_dir"/tara.column.annodbg -p 32 --discovery-fraction 0.8 "$pos_queries_tara" > "$output_dir"/tara_metagraph_pos.txt 2>> "$log_filename"
 
-/usr/bin/time -v "$cmd" query -i "$index_dir"/tara.dbg -a "$index_dir"/tara.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries_tara" > "$output_dir"/tara_metagraph_neg.txt 2>> "$log_filename"
+/usr/bin/time -v "$cmd" query -i "$index_dir"/tara.dbg -a "$index_dir"/tara.column.annodbg -p 32 --discovery-fraction 0.8 "$neg_queries" > "$output_dir"/tara_metagraph_neg.txt 2>> "$log_filename"

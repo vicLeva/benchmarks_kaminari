@@ -11,7 +11,7 @@ tmp_dir="/WORKS/vlevallois/tmp"
 fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
 fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
 fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
+fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
 fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
 
 
@@ -38,7 +38,7 @@ echo "start gut" >> "$log_filename"
 /usr/bin/time -v "$cmd" build \
   -i "$fof_gut" \
   -o "$index_dir"/gut.kaminari \
-  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1
+  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 --metagenome >> "$log_filename" 2>&1
 
 #===============================================================================
 
