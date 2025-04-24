@@ -1,3 +1,7 @@
+Quicklinks :  
+[Perfs expe](https://github.com/vicLeva/benchmarks_kaminari/wiki/Datasets-advanced-statistics)  
+[FPR & RBO](https://github.com/vicLeva/benchmarks_kaminari/wiki/RBO-&-FPR-benchmark)  
+
 # Kaminari paper benchmark
 
 This repository contains everything you need to conduct the experiments we presented in Kaminari's paper [LINK PAPER]
