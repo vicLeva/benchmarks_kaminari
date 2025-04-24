@@ -1,59 +1,69 @@
 #!/bin/bash
 
+# =============================================================================
+#                             CONFIGURATION SECTION
+# =============================================================================
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/kaminari/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="/WORKS/vlevallois/softs/kaminari/build/kaminari" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/kaminari"
+# Executable command
+KAMINARI_CMD="/WORKS/vlevallois/softs/kaminari/build/kaminari"
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
-fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
-fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
-fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
+# Paths
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/kaminari"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/kaminari"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
+# Dataset FOFs (file of files): dataset_name=fof_path:is_metagenome
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list:false"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/fof.list:false"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list:true"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list:false"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list:true"
+)
 
-echo "start ecoli" >> "$log_filename"
+# Indexing parameters
+KMER_SIZE=31
+MINIMIZER_SIZE=19
+MEMORY_LIMIT=256
+THREADS=32
+VERBOSITY=3
 
-/usr/bin/time -v "$cmd" build \
-  -i "$fof_ecoli" \
-  -o "$index_dir"/ecoli.kaminari \
-  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1
+# Log file setup
+mkdir -p "$LOG_DIR"
+LOG_FILENAME="$LOG_DIR/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
 
-#===============================================================================
+# =============================================================================
+#                                SCRIPT START
+# =============================================================================
 
-echo "start human" >> "$log_filename"
+echo "Starting Kaminari index construction..." | tee -a "$LOG_FILENAME"
 
-/usr/bin/time -v "$cmd" build \
-  -i "$fof_human" \
-  -o "$index_dir"/human.kaminari \
-  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1
+for dataset in "${!DATASETS[@]}"; do
+  IFS=":" read -r fof_path is_meta <<< "${DATASETS[$dataset]}"
+  output_index="$INDEX_DIR/${dataset}.kaminari"
 
-#===============================================================================
+  echo "Building index for $dataset" | tee -a "$LOG_FILENAME"
 
-echo "start gut" >> "$log_filename"
+  # Optional metagenome flag
+  meta_flag=""
+  if [[ "$is_meta" == "true" ]]; then
+    meta_flag="--metagenome"
+  fi
 
-/usr/bin/time -v "$cmd" build \
-  -i "$fof_gut" \
-  -o "$index_dir"/gut.kaminari \
-  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 --metagenome >> "$log_filename" 2>&1
+  /usr/bin/time -v "$KAMINARI_CMD" build \
+    -i "$fof_path" \
+    -o "$output_index" \
+    -k "$KMER_SIZE" \
+    -m "$MINIMIZER_SIZE" \
+    -d "$TMP_DIR" \
+    -a \
+    -v "$VERBOSITY" \
+    -t "$THREADS" \
+    -g "$MEMORY_LIMIT" \
+    $meta_flag >> "$LOG_FILENAME" 2>&1
 
-#===============================================================================
+  echo "Completed $dataset" | tee -a "$LOG_FILENAME"
+  echo "----------------------------------------------------" >> "$LOG_FILENAME"
+done
 
-echo "start salmonella" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" build \
-  -i "$fof_salmonella" \
-  -o "$index_dir"/salmonella.kaminari \
-  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1
-
-#===============================================================================
-
-echo " start tara " >> "$log_filename"
-
-/usr/bin/time -v "$cmd" build \
-  -i "$fof_tara" \
-  -o "$index_dir"/tara.kaminari \
-  -k 31 -m 19 -d "$tmp_dir" -a -v 3 -t 32 -g 256 >> "$log_filename" 2>&1
+echo "All datasets processed successfully." | tee -a "$LOG_FILENAME"

@@ -1,62 +1,67 @@
 #!/bin/bash
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/raptor/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="raptor" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/raptor"
-output_dir="/WORKS/vlevallois/expes_kaminari/answers/raptor"
+# =============================================================================
+#                             CONFIGURATION SECTION
+# =============================================================================
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta"
-pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
-pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
-pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
-pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
+# Executable and directories
+RAPTOR_CMD="raptor"
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/raptor"
+LOG_FILE="$LOG_DIR/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/raptor"
+OUTPUT_DIR="/WORKS/vlevallois/expes_kaminari/answers/raptor"
+mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
 
-neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
+# Parameters
+THRESHOLD=0.8
+QUERY_LENGTH=1000
+THREADS=32
 
+# Dataset definitions: name=positive_query_file
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
+)
 
-echo "start ecoli" >> "$log_filename"
+NEG_QUERIES="/WORKS/vlevallois/data/neg_queries.fasta"
 
+# =============================================================================
+#                                 MAIN SCRIPT
+# =============================================================================
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/ecoli.raptor --query "$pos_queries_ecoli" --output "$output_dir"/ecoli_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+echo "Starting Raptor queries..." | tee -a "$LOG_FILE"
 
+for dataset in "${!DATASETS[@]}"; do
+  POS_QUERY="${DATASETS[$dataset]}"
+  INDEX_FILE="$INDEX_DIR/${dataset}.raptor"
+  POS_OUTPUT="$OUTPUT_DIR/${dataset}_raptor_pos.txt"
+  NEG_OUTPUT="$OUTPUT_DIR/${dataset}_raptor_neg.txt"
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/ecoli.raptor --query "$neg_queries" --output "$output_dir"/ecoli_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+  echo "Running queries for $dataset" | tee -a "$LOG_FILE"
 
-#===============================================================================
+  # Positive queries
+  /usr/bin/time -v "$RAPTOR_CMD" search \
+    --index "$INDEX_FILE" \
+    --query "$POS_QUERY" \
+    --output "$POS_OUTPUT" \
+    --threads "$THREADS" \
+    --threshold "$THRESHOLD" \
+    --query_length "$QUERY_LENGTH" >> "$LOG_FILE" 2>&1
 
-echo "start human" >> "$log_filename"
+  # Negative queries
+  /usr/bin/time -v "$RAPTOR_CMD" search \
+    --index "$INDEX_FILE" \
+    --query "$NEG_QUERIES" \
+    --output "$NEG_OUTPUT" \
+    --threads "$THREADS" \
+    --threshold "$THRESHOLD" \
+    --query_length "$QUERY_LENGTH" >> "$LOG_FILE" 2>&1
 
-/usr/bin/time -v "$cmd" search --index "$index_dir"/human.raptor --query "$pos_queries_human" --output "$output_dir"/human_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+  echo "Finished $dataset" | tee -a "$LOG_FILE"
+  echo "------------------------------------------------------" >> "$LOG_FILE"
+done
 
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/human.raptor --query "$neg_queries" --output "$output_dir"/human_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
-
-#===============================================================================
-
-echo "start gut" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/gut.raptor --query "$pos_queries_gut" --output "$output_dir"/gut_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
-
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/gut.raptor --query "$neg_queries" --output "$output_dir"/gut_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
-
-#===============================================================================
-
-echo "start salmonella" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/salmonella.raptor --query "$pos_queries_salmonella" --output "$output_dir"/salmonella_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
-
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/salmonella.raptor --query "$neg_queries" --output "$output_dir"/salmonella_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
-
-#===============================================================================
-
-echo "start tara" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/tara.raptor --query "$pos_queries_tara" --output "$output_dir"/tara_raptor_pos.txt --threads 1 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
-
-
-/usr/bin/time -v "$cmd" search --index "$index_dir"/tara.raptor --query "$neg_queries" --output "$output_dir"/tara_raptor_neg.txt --threads 32 --threshold 0.8 --query_length 1000 >> "$log_filename" 2>&1
+echo "All Raptor queries completed." | tee -a "$LOG_FILE"

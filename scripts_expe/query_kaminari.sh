@@ -1,86 +1,68 @@
 #!/bin/bash
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/kaminari/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="/WORKS/vlevallois/softs/kaminari/build/kaminari" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/kaminari"
-output_dir="/WORKS/vlevallois/expes_kaminari/answers/kaminari"
+# =============================================================================
+#                                CONFIGURATION
+# =============================================================================
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta"
-pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
-pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
-pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
-pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
+# Executable and directories
+KAMINARI_CMD="/WORKS/vlevallois/softs/kaminari/build/kaminari"
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/kaminari"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/kaminari"
+OUTPUT_DIR="/WORKS/vlevallois/expes_kaminari/answers/kaminari"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
-neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
+# Log file
+LOG_FILE="$LOG_DIR/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
+mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
 
+# Kaminari query parameters
+THREADS=32
+THRESHOLD=0.8
+VERBOSE=1
 
-echo "start ecoli" >> "$log_filename"
+# Dataset definitions: name:positive_query_file:index_file
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta:$INDEX_DIR/ecoli.kaminari"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta:$INDEX_DIR/human.kaminari"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta:$INDEX_DIR/gut.kaminari"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta:$INDEX_DIR/salmonella.kaminari"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta:$INDEX_DIR/tara.kaminari"
+)
 
-/usr/bin/time -v "$cmd" query \
-  -i "$pos_queries_ecoli" \
-  -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/ecoli_kaminari_pos.txt -v 1 >> "$log_filename" 2>&1
+NEG_QUERIES="/WORKS/vlevallois/data/neg_queries.fasta"
 
-/usr/bin/time -v "$cmd" query \
-  -i "$neg_queries" \
-  -x "$index_dir"/ecoli.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/ecoli_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
+# =============================================================================
+#                              MAIN EXECUTION
+# =============================================================================
 
-#===============================================================================
+echo "Starting Kaminari queries..." | tee -a "$LOG_FILE"
 
-echo "start human" >> "$log_filename"
+for dataset in "${!DATASETS[@]}"; do
+  IFS=":" read -r POS_QUERY INDEX <<< "${DATASETS[$dataset]}"
+  echo "Running queries for $dataset" | tee -a "$LOG_FILE"
 
-/usr/bin/time -v "$cmd" query \
-  -i "$pos_queries_human" \
-  -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/human_kaminari_pos.txt -v 1 >> "$log_filename" 2>&1
+  # Positive query
+  /usr/bin/time -v "$KAMINARI_CMD" query \
+    -i "$POS_QUERY" \
+    -x "$INDEX" \
+    -d "$TMP_DIR" \
+    -t "$THREADS" \
+    -r "$THRESHOLD" \
+    -v "$VERBOSE" \
+    -o "$OUTPUT_DIR/${dataset}_kaminari_pos.txt" >> "$LOG_FILE" 2>&1
 
-/usr/bin/time -v "$cmd" query \
-  -i "$neg_queries" \
-  -x "$index_dir"/human.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/human_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
+  # Negative query
+  /usr/bin/time -v "$KAMINARI_CMD" query \
+    -i "$NEG_QUERIES" \
+    -x "$INDEX" \
+    -d "$TMP_DIR" \
+    -t "$THREADS" \
+    -r "$THRESHOLD" \
+    -v "$VERBOSE" \
+    -o "$OUTPUT_DIR/${dataset}_kaminari_neg.txt" >> "$LOG_FILE" 2>&1
 
-#===============================================================================
+  echo "Finished $dataset" | tee -a "$LOG_FILE"
+  echo "------------------------------------------------------" >> "$LOG_FILE"
+done
 
-echo "start gut" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" query \
-  -i "$pos_queries_gut" \
-  -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/gut_kaminari_pos.txt -v 1 >> "$log_filename" 2>&1
-
-/usr/bin/time -v "$cmd" query \
-  -i "$neg_queries" \
-  -x "$index_dir"/gut.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/gut_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
-
-#===============================================================================
-
-echo "start salmonella" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" query \
-  -i "$pos_queries_salmonella" \
-  -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/salmonella_kaminari_pos.txt -v 1 >> "$log_filename" 2>&1
-
-/usr/bin/time -v "$cmd" query \
-  -i "$neg_queries" \
-  -x "$index_dir"/salmonella.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/salmonella_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
-
-#===============================================================================
-
-echo "start tara" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" query \
-  -i "$pos_queries_tara" \
-  -x "$index_dir"/tara.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/tara_kaminari_pos.txt -v 1 >> "$log_filename" 2>&1
-
-/usr/bin/time -v "$cmd" query \
-  -i "$neg_queries" \
-  -x "$index_dir"/tara.kaminari -d "$tmp_dir" -g 256 \
-  -t 32 -r 0.8  -o "$output_dir"/tara_kaminari_neg.txt -v 1 >> "$log_filename" 2>&1
+echo "All Kaminari queries completed." | tee -a "$LOG_FILE"

@@ -1,100 +1,72 @@
 #!/bin/bash
 
-#see run_individual_ntcards.sh for the commands to calculate the bloom size
+# =============================================================================
+#                            CONFIGURATION SECTION
+# =============================================================================
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/kmindex/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="kmindex"
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/kmindex"
+# =============================================================================
+# bloom_size is computed by checking the size (in kmers) of the biggest file
+# then using https://hur.st/bloomfilter/, we can aim for a 80% FPR, with 1 hash function and knowing the size of the biggest file, we deduce the size of the bloom filter
+# example with ecoli : https://hur.st/bloomfilter/?n=10898880&p=0.8&m=&k=1
+# ntcard (https://github.com/bcgsc/ntCard) was used to compute the size of the biggest file
+# ==============================================================================
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof_kmindex.list"
-fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof_kmindex.list"
-fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof_kmindex.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k_kmindex.list"
-fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof_kmindex.list"
+# Executable command
+KMINDEX_CMD="kmindex"
 
+# Directory paths
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/kmindex"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/kmindex"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
-echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
+# Output log file
+mkdir -p "$LOG_DIR"
+LOG_FILENAME="$LOG_DIR/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
 
-/usr/bin/time -v "$cmd" build -f "$fof_ecoli" -i "$index_dir"/ecoli_index -r ecoli.kmindex --hard-min 1 -k 25 -t 32 --bloom-size 6771855 -d "$index_dir"/index_ecoli_on_disk >> "$log_filename" 2>&1
+# Indexing parameters
+KMER_SIZE=25
+THREADS=32
+HARD_MIN=1
 
-# -bloom-size 30556899 because https://hur.st/bloomfilter/?n=10898880&p=0.3&m=&k=1 (nb kmers from ntcard) (updated to fpr=0.8)
+# Dataset definitions: name:fof_path:bloom_size
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/fof_kmindex.list:6771855"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/fof_kmindex.list:1479843013"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof_kmindex.list:4664750"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k_kmindex.list:8145280"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof_kmindex.list:2420941782"
+)
 
-rm -rf "$index_dir"/index_ecoli_on_disk/fpr \
-    "$index_dir"/index_ecoli_on_disk/filters \
-    "$index_dir"/index_ecoli_on_disk/howde_index \
-    "$index_dir"/index_ecoli_on_disk/merge_infos \
-    "$index_dir"/index_ecoli_on_disk/counts \
-    "$index_dir"/index_ecoli_on_disk/histograms \
-    "$index_dir"/index_ecoli_on_disk/partition_infos \
-    "$index_dir"/index_ecoli_on_disk/superkmers \
-    "$index_dir"/index_ecoli_on_disk/minimizers
+# =============================================================================
+#                               SCRIPT EXECUTION
+# =============================================================================
 
+echo "Starting kmindex index construction..." | tee -a "$LOG_FILENAME"
 
-#===============================================================================
+for dataset in "${!DATASETS[@]}"; do
+  IFS=":" read -r fof_path bloom_size <<< "${DATASETS[$dataset]}"
+  index_prefix="$INDEX_DIR/${dataset}_index"
+  output_file="$INDEX_DIR/${dataset}.kmindex"
+  on_disk_dir="$INDEX_DIR/index_${dataset}_on_disk"
 
-echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
+  echo "Processing $dataset..." | tee -a "$LOG_FILENAME"
 
-/usr/bin/time -v "$cmd" build -f "$fof_human" -i "$index_dir"/human_index -r human.kmindex --hard-min 1 -k 25 -t 32 --bloom-size 1479843013 -d "$index_dir"/index_human_on_disk >> "$log_filename" 2>&1
+  /usr/bin/time -v "$KMINDEX_CMD" build \
+    -f "$fof_path" \
+    -i "$index_prefix" \
+    -r "$output_file" \
+    --hard-min "$HARD_MIN" \
+    -k "$KMER_SIZE" \
+    -t "$THREADS" \
+    --bloom-size "$bloom_size" \
+    -d "$on_disk_dir" >> "$LOG_FILENAME" 2>&1
 
-rm -rf "$index_dir"/index_human_on_disk/fpr \
-    "$index_dir"/index_human_on_disk/filters \
-    "$index_dir"/index_human_on_disk/howde_index \
-    "$index_dir"/index_human_on_disk/merge_infos \
-    "$index_dir"/index_human_on_disk/counts \
-    "$index_dir"/index_human_on_disk/histograms \
-    "$index_dir"/index_human_on_disk/partition_infos \
-    "$index_dir"/index_human_on_disk/superkmers \
-    "$index_dir"/index_human_on_disk/minimizers
+  echo "Cleaning temporary files for $dataset..." | tee -a "$LOG_FILENAME"
 
-#===============================================================================
+  rm -rf "$on_disk_dir"/{fpr,filters,howde_index,merge_infos,counts,histograms,partition_infos,superkmers,minimizers}
 
-echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
+  echo "$dataset completed." | tee -a "$LOG_FILENAME"
+  echo "----------------------------------------------------" >> "$LOG_FILENAME"
+done
 
-#NOTE for gut and salmonella (10k docs) need to to the merge with less threads because too many files opened at once else
-
-/usr/bin/time -v "$cmd" build -f "$fof_gut" -i "$index_dir"/gut_index -r gut.kmindex --hard-min 1 -k 25 -t 32 --bloom-size 4664750 -d "$index_dir"/index_gut_on_disk >> "$log_filename" 2>&1
-
-rm -rf "$index_dir"/index_gut_on_disk/fpr \
-    "$index_dir"/index_gut_on_disk/filters \
-    "$index_dir"/index_gut_on_disk/howde_index \
-    "$index_dir"/index_gut_on_disk/merge_infos \
-    "$index_dir"/index_gut_on_disk/counts \
-    "$index_dir"/index_gut_on_disk/histograms \
-    "$index_dir"/index_gut_on_disk/partition_infos \
-    "$index_dir"/index_gut_on_disk/superkmers \
-    "$index_dir"/index_gut_on_disk/minimizers
-
-#===============================================================================
-
-echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" build -f "$fof_salmonella" -i "$index_dir"/salmonella_index -r salmonella.kmindex --hard-min 1 -k 25 -t 32 --bloom-size 8145280 -d "$index_dir"/index_salmonella_on_disk >> "$log_filename" 2>&1
-
-rm -rf "$index_dir"/index_salmonella_on_disk/fpr \
-    "$index_dir"/index_salmonella_on_disk/filters \
-    "$index_dir"/index_salmonella_on_disk/howde_index \
-    "$index_dir"/index_salmonella_on_disk/merge_infos \
-    "$index_dir"/index_salmonella_on_disk/counts \
-    "$index_dir"/index_salmonella_on_disk/histograms \
-    "$index_dir"/index_salmonella_on_disk/partition_infos \
-    "$index_dir"/index_salmonella_on_disk/superkmers \
-    "$index_dir"/index_salmonella_on_disk/minimizers
-
-#===============================================================================
-
-echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" build -f "$fof_tara" -i "$index_dir"/tara_index -r tara.kmindex --hard-min 1 -k 25 -t 32 --bloom-size 2420941782 -d "$index_dir"/index_tara_on_disk >> "$log_filename" 2>&1
-
-rm -rf "$index_dir"/index_tara_on_disk/fpr \
-    "$index_dir"/index_tara_on_disk/filters \
-    "$index_dir"/index_tara_on_disk/howde_index \
-    "$index_dir"/index_tara_on_disk/merge_infos \
-    "$index_dir"/index_tara_on_disk/counts \
-    "$index_dir"/index_tara_on_disk/histograms \
-    "$index_dir"/index_tara_on_disk/partition_infos \
-    "$index_dir"/index_tara_on_disk/superkmers \
-    "$index_dir"/index_tara_on_disk/minimizers
+echo "All datasets processed successfully." | tee -a "$LOG_FILENAME"

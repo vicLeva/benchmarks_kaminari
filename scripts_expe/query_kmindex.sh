@@ -1,79 +1,66 @@
 #!/bin/bash
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/kmindex/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="kmindex" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/kmindex"
-output_dir="/WORKS/vlevallois/expes_kaminari/answers/kmindex"
+# =============================================================================
+#                                CONFIGURATION
+# =============================================================================
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta"
-pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
-pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
-pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
-pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
+# Executable and directories
+KM_CMD="kmindex"
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/kmindex"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/kmindex"
+OUTPUT_DIR="/WORKS/vlevallois/expes_kaminari/answers/kmindex"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
-neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
+# Log file
+LOG_FILE="$LOG_DIR/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
+mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
 
+# Parameters
+THREADS=32
+RATIO=0.8
+z=6 # indexed 25-mers, query 25+6=31-mers
 
-echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
+# Dataset definitions: name:positive_query:index_name
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta:ecoli_index"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta:human_index"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta:gut_index"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta:salmonella_index"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta:tara_index"
+)
 
+NEG_QUERIES="/WORKS/vlevallois/data/neg_queries.fasta"
 
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/ecoli_index -o "$output_dir"/ecoli_kmindex_pos  -q "$pos_queries_ecoli" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
+# =============================================================================
+#                              MAIN EXECUTION
+# =============================================================================
 
-rm -rf "$output_dir"/ecoli_kmindex_pos/batch*
+echo "Starting kmindex queries..." | tee -a "$LOG_FILE"
 
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/ecoli_index -o "$output_dir"/ecoli_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
+for dataset in "${!DATASETS[@]}"; do
+  IFS=":" read -r POS_QUERY INDEX_NAME <<< "${DATASETS[$dataset]}"
+  echo "Running queries for $dataset" | tee -a "$LOG_FILE"
 
-rm -rf "$output_dir"/ecoli_kmindex_neg/batch*
+  # Positive queries
+  /usr/bin/time -v "$KM_CMD" query \
+    -i "$INDEX_DIR/$INDEX_NAME" \
+    -o "$OUTPUT_DIR/${dataset}_kmindex_pos" \
+    -q "$POS_QUERY" \
+    -z "$z" -r "$RATIO" --aggregate -t "$THREADS" >> "$LOG_FILE" 2>&1
 
-#===============================================================================
+  rm -rf "$OUTPUT_DIR/${dataset}_kmindex_pos/batch*"
 
-echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
+  # Negative queries
+  /usr/bin/time -v "$KM_CMD" query \
+    -i "$INDEX_DIR/$INDEX_NAME" \
+    -o "$OUTPUT_DIR/${dataset}_kmindex_neg" \
+    -q "$NEG_QUERIES" \
+    -z "$z" -r "$RATIO" --aggregate -t "$THREADS" >> "$LOG_FILE" 2>&1
 
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/human_index -o "$output_dir"/human_kmindex_pos  -q "$pos_queries_human" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
+  rm -rf "$OUTPUT_DIR/${dataset}_kmindex_neg/batch*"
 
-rm -rf "$output_dir"/human_kmindex_pos/batch*
+  echo "Finished $dataset" | tee -a "$LOG_FILE"
+  echo "------------------------------------------------------" >> "$LOG_FILE"
+done
 
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/human_index -o "$output_dir"/human_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/human_kmindex_neg/batch*
-
-#===============================================================================
-
-echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/gut_index -o "$output_dir"/gut_kmindex_pos  -q "$pos_queries_gut" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/gut_kmindex_pos/batch*
-
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/gut_index -o "$output_dir"/gut_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/gut_kmindex_neg/batch*
-
-#===============================================================================
-
-echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/salmonella_index -o "$output_dir"/salmonella_kmindex_pos  -q "$pos_queries_salmonella" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/salmonella_kmindex_pos/batch*
-
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/salmonella_index -o "$output_dir"/salmonella_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/salmonella_kmindex_neg/batch*
-
-#===============================================================================
-
-echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/tara_index -o "$output_dir"/tara_kmindex_pos  -q "$pos_queries_tara" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/tara_kmindex_pos/batch*
-
-/usr/bin/time -v  "$cmd" query -i "$index_dir"/tara_index -o "$output_dir"/tara_kmindex_neg  -q "$neg_queries" -z 6 -r 0.8 --aggregate -t 32 >> "$log_filename" 2>&1
-
-rm -rf "$output_dir"/tara_kmindex_neg/batch*
-
-
+echo "All kmindex queries completed." | tee -a "$LOG_FILE"

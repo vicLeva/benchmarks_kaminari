@@ -1,58 +1,63 @@
 #!/bin/bash
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/cobs/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="/WORKS/vlevallois/softs/cobs/build/src/cobs" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/cobs"
-output_dir="/WORKS/vlevallois/expes_kaminari/answers/cobs"
+# =============================================================================
+#                              CONFIGURATION
+# =============================================================================
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-pos_queries_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta"
-pos_queries_human="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta"
-pos_queries_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta"
-pos_queries_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta"
-pos_queries_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta"
+# Paths to executables and directories (edit here as needed)
+COBS_CMD="/WORKS/vlevallois/softs/cobs/build/src/cobs"
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/cobs"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/cobs"
+OUTPUT_DIR="/WORKS/vlevallois/expes_kaminari/answers/cobs"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
-neg_queries="/WORKS/vlevallois/data/neg_queries.fasta"
+# Log file
+LOG_FILE="$LOG_DIR/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
+mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
 
+# COBS query parameters
+THRESHOLD=0.8
+THREADS=32
 
-echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
+# Dataset definitions: name:positive_query_file:index_file
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta:$INDEX_DIR/ecoli.cobs_compact"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta:$INDEX_DIR/human.cobs_compact"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta:$INDEX_DIR/gut.cobs_compact"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta:$INDEX_DIR/salmonella.cobs_compact"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta:$INDEX_DIR/tara.cobs_compact"
+)
 
-/usr/bin/time -v "$cmd" query -f "$pos_queries_ecoli" -i "$index_dir"/ecoli.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/ecoli_cobs_pos.txt 2>> "$log_filename"
+NEG_QUERIES="/WORKS/vlevallois/data/neg_queries.fasta"
 
-/usr/bin/time -v "$cmd" query -f "$neg_queries" -i "$index_dir"/ecoli.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/ecoli_cobs_neg.txt 2>> "$log_filename"
+# =============================================================================
+#                               MAIN EXECUTION
+# =============================================================================
 
-#===============================================================================
+echo "Starting COBS queries..." | tee -a "$LOG_FILE"
 
-echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
+for dataset in "${!DATASETS[@]}"; do
+  IFS=":" read -r POS_QUERY INDEX <<< "${DATASETS[$dataset]}"
+  echo "Running queries for $dataset" | tee -a "$LOG_FILE"
 
-/usr/bin/time -v "$cmd" query -f "$pos_queries_human" -i "$index_dir"/human.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/human_cobs_pos.txt 2>> "$log_filename"
+  # Positive query
+  /usr/bin/time -v "$COBS_CMD" query \
+    -f "$POS_QUERY" \
+    -i "$INDEX" \
+    -T "$THREADS" \
+    --threshold "$THRESHOLD" \
+    --load-complete > "$OUTPUT_DIR/${dataset}_cobs_pos.txt" 2>> "$LOG_FILE"
 
-/usr/bin/time -v "$cmd" query -f "$neg_queries" -i "$index_dir"/human.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/human_cobs_neg.txt 2>> "$log_filename"
+  # Negative query
+  /usr/bin/time -v "$COBS_CMD" query \
+    -f "$NEG_QUERIES" \
+    -i "$INDEX" \
+    -T "$THREADS" \
+    --threshold "$THRESHOLD" \
+    --load-complete > "$OUTPUT_DIR/${dataset}_cobs_neg.txt" 2>> "$LOG_FILE"
 
-#===============================================================================
+  echo "Finished $dataset" | tee -a "$LOG_FILE"
+  echo "------------------------------------------------------" >> "$LOG_FILE"
+done
 
-echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" query -f "$pos_queries_gut" -i "$index_dir"/gut.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/gut_cobs_pos.txt 2>> "$log_filename"
-
-/usr/bin/time -v "$cmd" query -f "$neg_queries" -i "$index_dir"/gut.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/gut_cobs_neg.txt 2>> "$log_filename"
-
-#===============================================================================
-
-echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
-
-
-/usr/bin/time -v "$cmd" query -f "$pos_queries_salmonella" -i "$index_dir"/salmonella.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/salmonella_cobs_pos.txt 2>> "$log_filename"
-
-/usr/bin/time -v "$cmd" query -f "$neg_queries" -i "$index_dir"/salmonella.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/salmonella_cobs_neg.txt 2>> "$log_filename"
-
-#===============================================================================
-
-echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
-
-
-/usr/bin/time -v "$cmd" query -f "$pos_queries_tara" -i "$index_dir"/tara.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/tara_cobs_pos.txt 2>> "$log_filename"
-
-/usr/bin/time -v "$cmd" query -f "$neg_queries" -i "$index_dir"/tara.cobs_compact -T 32 --threshold 0.8 --load-complete > "$output_dir"/tara_cobs_neg.txt 2>> "$log_filename"
+echo "All COBS queries completed." | tee -a "$LOG_FILE"

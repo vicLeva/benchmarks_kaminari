@@ -9,6 +9,8 @@ def write_file(filename, read_length, nb_reads):
             fh.write(f">{i}\n")
             fh.write(random_seq(read_length) + "\n")
 
-write_file("/WORKS/vlevallois/data/neg_queries_80.fasta", 80, 50000)
-write_file("/WORKS/vlevallois/data/neg_queries_500.fasta", 500, 50000)
-write_file("/WORKS/vlevallois/data/neg_queries_2000.fasta", 2000, 50000)
+if __name__ == "__main__":
+    write_file("/WORKS/vlevallois/data/neg_queries_80.fasta", 80, 50000)
+    write_file("/WORKS/vlevallois/data/neg_queries_500.fasta", 500, 50000)
+    write_file("/WORKS/vlevallois/data/neg_queries_500.fasta", 1000, 50000)
+    write_file("/WORKS/vlevallois/data/neg_queries_2000.fasta", 2000, 50000)

@@ -1,62 +1,69 @@
 #!/bin/bash
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/raptor/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="raptor" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/raptor"
+# =============================================================================
+#                            CONFIGURATION SECTION
+# =============================================================================
 
-preprocessing_dir="/WORKS/vlevallois/expes_kaminari/indexes/raptor/preprocessing_files"
-mkdir -p "$preprocessing_dir"
+# Executable and paths to be customized
+RAPTOR_CMD="raptor"
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/raptor"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/raptor"
+PREPROCESS_DIR="$INDEX_DIR/preprocessing_files"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
-fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
-fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
-fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
+# Create necessary directories
+mkdir -p "$LOG_DIR" "$PREPROCESS_DIR"
 
+# Log file
+LOG_FILENAME="$LOG_DIR/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
 
+# Raptor parameters
+KMER_SIZE=19
+WINDOW_SIZE=31
+THREADS=32
+FPR=0.05
+HASHES=2
 
+# Dataset definitions: name:fof_path
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
+)
 
-echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
+# =============================================================================
+#                               SCRIPT EXECUTION
+# =============================================================================
 
-/usr/bin/time -v "$cmd" layout --input-file "$fof_ecoli"  --kmer-size 19 --output-filename "$preprocessing_dir"/ecoli_binning.out --threads 32 --false-positive-rate 0.05 --num-hash-functions 2 >> "$log_filename" 2>&1
+echo "Starting Raptor index construction..." | tee -a "$LOG_FILENAME"
 
-/usr/bin/time -v "$cmd" build --input "$preprocessing_dir"/ecoli_binning.out --output "$index_dir"/ecoli.raptor --window 31 --threads 32 >> "$log_filename" 2>&1
+for dataset in "${!DATASETS[@]}"; do
+  fof_path="${DATASETS[$dataset]}"
+  layout_file="$PREPROCESS_DIR/${dataset}_binning.out"
+  index_file="$INDEX_DIR/${dataset}.raptor"
 
-#===============================================================================
+  echo "Processing $dataset..." | tee -a "$LOG_FILENAME"
 
-echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
+  # Step 1: Layout
+  /usr/bin/time -v "$RAPTOR_CMD" layout \
+    --input-file "$fof_path" \
+    --kmer-size "$KMER_SIZE" \
+    --output-filename "$layout_file" \
+    --threads "$THREADS" \
+    --false-positive-rate "$FPR" \
+    --num-hash-functions "$HASHES" >> "$LOG_FILENAME" 2>&1
 
-/usr/bin/time -v "$cmd" layout --input-file "$fof_human"  --kmer-size 19 --output-filename "$preprocessing_dir"/human_binning.out --threads 32 --false-positive-rate 0.05 --num-hash-functions 2 >> "$log_filename" 2>&1
+  # Step 2: Build
+  /usr/bin/time -v "$RAPTOR_CMD" build \
+    --input "$layout_file" \
+    --output "$index_file" \
+    --window "$WINDOW_SIZE" \
+    --threads "$THREADS" >> "$LOG_FILENAME" 2>&1
 
-/usr/bin/time -v "$cmd" build --input "$preprocessing_dir"/human_binning.out --output "$index_dir"/human.raptor --window 31 --threads 32 >> "$log_filename" 2>&1
+  echo "$dataset indexing completed." | tee -a "$LOG_FILENAME"
+  echo "------------------------------------------------------" >> "$LOG_FILENAME"
+done
 
-
-#===============================================================================
-
-echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" layout --input-file "$fof_gut"  --kmer-size 19 --output-filename "$preprocessing_dir"/gut_binning.out --threads 32 --false-positive-rate 0.05 --num-hash-functions 2 >> "$log_filename" 2>&1
-
-/usr/bin/time -v "$cmd" build --input "$preprocessing_dir"/gut_binning.out --output "$index_dir"/gut.raptor --window 31 --threads 32 >> "$log_filename" 2>&1
-
-
-#===============================================================================
-
-echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" layout --input-file "$fof_salmonella"  --kmer-size 19 --output-filename "$preprocessing_dir"/salmonella_binning.out --threads 32 --false-positive-rate 0.05 --num-hash-functions 2 >> "$log_filename" 2>&1
-
-/usr/bin/time -v "$cmd" build --input "$preprocessing_dir"/salmonella_binning.out --output "$index_dir"/salmonella.raptor --window 31 --threads 32 >> "$log_filename" 2>&1
-
-
-
-#===============================================================================
-
-echo "!!!==!!! start tara  !!!==!!!" >> "$log_filename"
-
-/usr/bin/time -v "$cmd" layout --input-file "$fof_tara"  --kmer-size 19 --output-filename "$preprocessing_dir"/tara_binning.out --threads 32 --false-positive-rate 0.05 --num-hash-functions 2 >> "$log_filename" 2>&1
-
-/usr/bin/time -v "$cmd" build --input "$preprocessing_dir"/tara_binning.out --output "$index_dir"/tara.raptor --window 31 --threads 32 >> "$log_filename" 2>&1
+echo "All Raptor indexes built successfully." | tee -a "$LOG_FILENAME"

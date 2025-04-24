@@ -1,46 +1,62 @@
 #!/bin/bash
 
-#to change
-log_filename="/WORKS/vlevallois/expes_kaminari/logs/cobs/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
-cmd="/WORKS/vlevallois/softs/cobs/build/src/cobs" 
-index_dir="/WORKS/vlevallois/expes_kaminari/indexes/cobs"
+# =============================================================================
+#                             CONFIGURATION SECTION
+# =============================================================================
 
-#constants
-tmp_dir="/WORKS/vlevallois/tmp"
-fof_ecoli="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
-fof_human="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
-fof_gut="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
-fof_salmonella="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
-fof_tara="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
+# Tool command
+COBS_CMD="/WORKS/vlevallois/softs/cobs/build/src/cobs"
 
+# Paths
+LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/cobs"
+INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/cobs"
+TMP_DIR="/WORKS/vlevallois/tmp"
 
-echo "!!!==!!! start ecoli !!!==!!!" >> "$log_filename"
+# Dataset FOF (file of files) paths
+declare -A DATASETS=(
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/fof.list"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/fof.list"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k.list"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
+)
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_ecoli" "$index_dir"/ecoli.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
+# Indexing parameters
+KMER_SIZE=31
+NUM_HASHES=1
+THREADS=32
+MEMORY_LIMIT=274877906944 # 256 GB
+FPR=0.3
 
-#===============================================================================
+# Log file setup
+mkdir -p "$LOG_DIR"
+LOG_FILENAME="$LOG_DIR/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
 
-echo "!!!==!!! start human !!!==!!!" >> "$log_filename"
+# =============================================================================
+#                                SCRIPT START
+# =============================================================================
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_human" "$index_dir"/human.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
+echo "Starting COBS index construction..." | tee -a "$LOG_FILENAME"
 
-#===============================================================================
+for dataset in "${!DATASETS[@]}"; do
+  fof_path="${DATASETS[$dataset]}"
+  output_index="$INDEX_DIR/${dataset}.cobs_compact"
 
-echo "!!!==!!! start gut !!!==!!!" >> "$log_filename"
+  echo "Building index for $dataset" | tee -a "$LOG_FILENAME"
 
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_gut" "$index_dir"/gut.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
+  /usr/bin/time -v "$COBS_CMD" compact-construct \
+    --file-type list \
+    --continue \
+    "$fof_path" \
+    "$output_index" \
+    -m "$MEMORY_LIMIT" \
+    -k "$KMER_SIZE" \
+    -T "$THREADS" \
+    --false-positive-rate "$FPR" \
+    --num-hashes "$NUM_HASHES" >> "$LOG_FILENAME" 2>&1
 
-#===============================================================================
+  echo "Completed $dataset" | tee -a "$LOG_FILENAME"
+  echo "----------------------------------------------------" >> "$LOG_FILENAME"
+done
 
-echo "!!!==!!! start salmonella !!!==!!!" >> "$log_filename"
-
-
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_salmonella" "$index_dir"/salmonella.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
-
-
-#===============================================================================
-
-echo "!!!==!!! start tara !!!==!!!" >> "$log_filename"
-
-
-/usr/bin/time -v "$cmd" compact-construct --file-type list --continue "$fof_tara" "$index_dir"/tara.cobs_compact -m 274877906944 -k 31 -T 32 --false-positive-rate 0.3 --num-hashes 1 >> "$log_filename" 2>&1
+echo "All datasets processed successfully." | tee -a "$LOG_FILENAME"
