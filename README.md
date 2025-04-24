@@ -1,5 +1,5 @@
 Quicklinks :  
-[Perfs expe](https://github.com/vicLeva/benchmarks_kaminari/wiki/Datasets-advanced-statistics)  
+[Perfs expe](https://github.com/vicLeva/benchmarks_kaminari/wiki/Performances-benchmark)  
 [FPR & RBO](https://github.com/vicLeva/benchmarks_kaminari/wiki/RBO-&-FPR-benchmark)  
 
 # Kaminari paper benchmark
