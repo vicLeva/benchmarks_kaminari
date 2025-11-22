@@ -38,10 +38,11 @@ For **Metagraph**, we used this pipeline [https://github.com/theJasonFan/metagra
 + **Salmonella** : http://ftp.ebi.ac.uk/pub/databases/ENA2018-bacteria-661k/
     - 10.000 first files
 
-+ **Gut** : https://arken.nmbu.no/%7elarssn/humgut/index.htm
++ **Gut** : https://arken.nmbu.no/~larssn/humgut/
     - 10.000 first files
 
-+ **Tara/SeaWater** : [TODO]
++ **Tara/SeaWater** : https://github.com/pierrepeterlongo/kmindex_benchmarks/blob/main/tests_50_tara_stations/data/sources.md
+    - [TODO: precise]
 
 
 Advanced statistics for these datasets are available [HERE](https://github.com/vicLeva/benchmarks_kaminari/wiki/Datasets-advanced-statistics) 
