@@ -31,6 +31,7 @@ declare -A DATASETS=(
   [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
   [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
   [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
+  [refseq]="/WORKS/vlevallois/data/dataset_refseq/fof.list"
 )
 
 # =============================================================================
@@ -50,6 +51,7 @@ for dataset in "${!DATASETS[@]}"; do
   /usr/bin/time -v "$RAPTOR_CMD" layout \
     --input-file "$fof_path" \
     --kmer-size "$KMER_SIZE" \
+    --window "$WINDOW_SIZE" \
     --output-filename "$layout_file" \
     --threads "$THREADS" \
     --false-positive-rate "$FPR" \
