@@ -19,7 +19,8 @@ declare -A DATASETS=(
   [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof.list"
   [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
   [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof.list"
-  [tara]="/WORKS/vlevallois/data/dataset_refseq/fof.list"
+  [refseq]="/WORKS/vlevallois/data/dataset_refseq/fof.list"
+  #[661k]="/WORKS/vlevallois/data/dataset_661k/fof.list"
 )
 
 # Indexing parameters
