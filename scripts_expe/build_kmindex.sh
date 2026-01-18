@@ -35,6 +35,7 @@ declare -A DATASETS=(
   [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/fof_kmindex.list:4664750"
   [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof_10k_kmindex.list:8145280"
   [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/fof_kmindex.list:2420941782"
+  [refseq]="/WORKS/vlevallois/data/dataset_refseq/fof_kmindex.list:9869292"
 )
 
 # =============================================================================
