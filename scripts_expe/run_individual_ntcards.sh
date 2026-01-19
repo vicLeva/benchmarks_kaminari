@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Path to the fof.list file containing the list of input files
-fof_list="/WORKS/vlevallois/data/dataset_pangenome_salmonella/fof.list"
+fof_list="/WORKS/vlevallois/data/dataset_refseq/fof.list"
 
 # Directory to store ntCard results
-output_dir="/WORKS/vlevallois/data/dataset_pangenome_salmonella/ntcard_results"
+output_dir="/WORKS/vlevallois/data/dataset_refseq/ntcard_results"
 
 # Create the output directory if it doesn't exist
 mkdir -p "$output_dir"
@@ -24,7 +24,7 @@ for input_file in $largest_files; do
     prefix="${filename%.*}"  # Remove extension for the prefix
 
     # Run ntCard with the input file and specific output prefix
-    /home/genouest/genscale/vlevallois/ntCard/ntcard -t 4 -k 31 -p "${output_dir}/${prefix}" "$input_file"
+    /home/genouest/genscale/vlevallois/ntCard/ntcard -t 4 -k 25 -p "${output_dir}/${prefix}" "$input_file"
     
     echo "ntCard finished processing: $input_file"
 done

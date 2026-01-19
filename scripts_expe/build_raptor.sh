@@ -5,7 +5,7 @@
 # =============================================================================
 
 # Executable and paths to be customized
-RAPTOR_CMD="raptor"
+RAPTOR_CMD="/WORKS/vlevallois/softs/raptor/build/bin/raptor"
 LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/raptor"
 INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/raptor"
 PREPROCESS_DIR="$INDEX_DIR/preprocessing_files"
@@ -49,13 +49,13 @@ for dataset in "${!DATASETS[@]}"; do
 
   # Step 1: Layout
   /usr/bin/time -v "$RAPTOR_CMD" layout \
-    --input-file "$fof_path" \
-    --kmer-size "$KMER_SIZE" \
+    --input "$fof_path" \
+    --kmer "$KMER_SIZE" \
     --window "$WINDOW_SIZE" \
-    --output-filename "$layout_file" \
+    --output "$layout_file" \
     --threads "$THREADS" \
-    --false-positive-rate "$FPR" \
-    --num-hash-functions "$HASHES" >> "$LOG_FILENAME" 2>&1
+    --fpr "$FPR" \
+    --hash "$HASHES" >> "$LOG_FILENAME" 2>&1
 
   # Step 2: Build
   /usr/bin/time -v "$RAPTOR_CMD" build \
