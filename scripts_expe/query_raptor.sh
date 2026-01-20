@@ -5,7 +5,7 @@
 # =============================================================================
 
 # Executable and directories
-RAPTOR_CMD="raptor"
+RAPTOR_CMD="/WORKS/vlevallois/softs/raptor/build/bin/raptor"
 LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/raptor"
 LOG_FILE="$LOG_DIR/query_$(date '+%Y-%m-%d_%H-%M-%S').log"
 INDEX_DIR="/WORKS/vlevallois/expes_kaminari/indexes/raptor"
