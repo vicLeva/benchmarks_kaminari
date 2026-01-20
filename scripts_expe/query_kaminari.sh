@@ -22,11 +22,12 @@ VERBOSE=1
 
 # Dataset definitions: name:positive_query_file:index_file
 declare -A DATASETS=(
-  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta:$INDEX_DIR/ecoli.kaminari"
-  [human]="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta:$INDEX_DIR/human.kaminari"
-  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta:$INDEX_DIR/gut.kaminari"
-  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta:$INDEX_DIR/salmonella.kaminari"
-  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta:$INDEX_DIR/tara.kaminari"
+  [ecoli]="/WORKS/vlevallois/data/dataset_genome_ecoli/pos_queries.fasta:$INDEX_DIR/ecoli_index"
+  [human]="/WORKS/vlevallois/data/dataset_genome_human/pos_queries.fasta:$INDEX_DIR/human_index"
+  [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta:$INDEX_DIR/gut_index"
+  [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta:$INDEX_DIR/salmonella_index"
+  [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta:$INDEX_DIR/tara_index"
+  [refseq]="/WORKS/vlevallois/data/dataset_refseq/pos_queries.fasta:$INDEX_DIR/refseq_index"
 )
 
 NEG_QUERIES="/WORKS/vlevallois/data/neg_queries.fasta"
@@ -45,7 +46,6 @@ for dataset in "${!DATASETS[@]}"; do
   /usr/bin/time -v "$KAMINARI_CMD" query \
     -i "$POS_QUERY" \
     -x "$INDEX" \
-    -d "$TMP_DIR" \
     -t "$THREADS" \
     -r "$THRESHOLD" \
     -v "$VERBOSE" \
@@ -55,7 +55,6 @@ for dataset in "${!DATASETS[@]}"; do
   /usr/bin/time -v "$KAMINARI_CMD" query \
     -i "$NEG_QUERIES" \
     -x "$INDEX" \
-    -d "$TMP_DIR" \
     -t "$THREADS" \
     -r "$THRESHOLD" \
     -v "$VERBOSE" \

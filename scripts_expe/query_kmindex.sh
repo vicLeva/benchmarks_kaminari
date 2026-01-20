@@ -27,6 +27,7 @@ declare -A DATASETS=(
   [gut]="/WORKS/vlevallois/data/dataset_metagenome_gut/pos_queries.fasta:gut_index"
   [salmonella]="/WORKS/vlevallois/data/dataset_pangenome_salmonella/pos_queries.fasta:salmonella_index"
   [tara]="/WORKS/vlevallois/data/dataset_metagenome_tara/pos_queries.fasta:tara_index"
+  [refseq]="/WORKS/vlevallois/data/dataset_refseq/pos_queries.fasta:refseq_on_disk"
 )
 
 NEG_QUERIES="/WORKS/vlevallois/data/neg_queries.fasta"
