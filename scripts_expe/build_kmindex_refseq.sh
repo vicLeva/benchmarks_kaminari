@@ -57,7 +57,7 @@ echo "Part 2/4: Building refseq group 2 index..." | tee -a "$LOG_FILENAME"
   -t "$THREADS" \
   --from "refseq_grp1.kmindex" >> "$LOG_FILENAME" 2>&1
 
-echo "Part 3/4: Merging refseq indexes..." | tee -a "$LOG_FILENAME"
+echo "Part 3/4: Building refseq group 3 index..." | tee -a "$LOG_FILENAME"
 
 /usr/bin/time -v "$KMINDEX_CMD" build \
   -f "/WORKS/vlevallois/data/dataset_refseq/fof_kmindex_grp3.list" \
