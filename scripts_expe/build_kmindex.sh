@@ -47,7 +47,7 @@ echo "Starting kmindex index construction..." | tee -a "$LOG_FILENAME"
 for dataset in "${!DATASETS[@]}"; do
   IFS=":" read -r fof_path bloom_size <<< "${DATASETS[$dataset]}"
   index_prefix="$INDEX_DIR/${dataset}_index"
-  output_file="$INDEX_DIR/${dataset}.kmindex"
+  output_file= "${dataset}.kmindex"
   on_disk_dir="$INDEX_DIR/index_${dataset}_on_disk"
 
   echo "Processing $dataset..." | tee -a "$LOG_FILENAME"
