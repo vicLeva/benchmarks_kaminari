@@ -44,6 +44,8 @@ For **Metagraph**, we used this pipeline [https://github.com/theJasonFan/metagra
 + **Tara/SeaWater** : https://github.com/pierrepeterlongo/kmindex_benchmarks/blob/main/tests_50_tara_stations/data/sources.md
     - [TODO: precise]
 
++ **Refseq** : https://zenodo.org/records/7742011
+
 
 Advanced statistics for these datasets are available [HERE](https://github.com/vicLeva/benchmarks_kaminari/wiki/Datasets-advanced-statistics) 
 
