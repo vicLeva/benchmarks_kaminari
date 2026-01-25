@@ -41,8 +41,7 @@ For **Metagraph**, we used this pipeline [https://github.com/theJasonFan/metagra
 + **Gut** : https://arken.nmbu.no/~larssn/humgut/
     - 10.000 first files
 
-+ **Tara/SeaWater** : https://github.com/pierrepeterlongo/kmindex_benchmarks/blob/main/tests_50_tara_stations/data/sources.md
-    - [TODO: precise]
++ **Tara/SeaWater** : https://github.com/vicLeva/benchmarks_kaminari/wiki/Tara-dataset
 
 + **Refseq** : https://zenodo.org/records/7742011
 
