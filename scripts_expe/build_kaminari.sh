@@ -5,7 +5,7 @@
 # =============================================================================
 
 # Executable command
-KAMINARI_CMD="/WORKS/vlevallois/softs/kaminari/build_on_disk/kaminari"
+KAMINARI_CMD="/WORKS/vlevallois/softs/kaminari/build/kaminari"
 
 # Paths
 LOG_DIR="/WORKS/vlevallois/expes_kaminari/logs/kaminari"

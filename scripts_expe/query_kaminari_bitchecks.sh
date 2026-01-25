@@ -19,7 +19,7 @@ LOG_FILE="$LOG_DIR/query_human_bits_threshold_variation_$(date '+%Y-%m-%d_%H-%M-
 mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
 
 # Kaminari static parameters
-THREADS=32
+THREADS=1
 VERBOSE=1
 
 # =============================================================================
