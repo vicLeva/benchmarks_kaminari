@@ -19,6 +19,15 @@ All the tools have been installed following the documentations
 + **Metagraph** : https://github.com/ratschlab/metagraph?tab=readme-ov-file#install
 + **Raptor** : https://github.com/seqan/raptor?tab=readme-ov-file#download-and-installation
 
+### Version of the tools used 
+
++ **Kaminari** : commit `305f2c5`
++ **Fulgor** : commit `5ac5699`
++ **Cobs** : commit `2fbb044`
++ **Kmindex** : version `0.5.2`
++ **Metagraph** : commit `5c2a12b` (see https://github.com/theJasonFan/metagraph-workflows)
++ **Raptor** : commit `e7b5a35`
+
 ### Run the tools
 
 The following directory  
