@@ -4,7 +4,7 @@ Quicklinks :
 
 # Kaminari paper benchmark
 
-This repository contains everything you need to conduct the experiments we presented in Kaminari's paper [LINK PAPER]
+This repository contains everything you need to conduct the experiments we presented in [Kaminari's paper](https://academic.oup.com/bioinformaticsadvances/advance-article/doi/10.1093/bioadv/vbag120/8662820?login=true).
 
 ## Competitors
 
